@@ -18,9 +18,10 @@ var CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 
 exports.default = function (robot) {
   var Blank = robot.cards.Blank;
-  var _robot$UI = robot.UI;
-  var TextField = _robot$UI.TextField;
-  var SelectField = _robot$UI.SelectField;
+  var _robot$UI$material = robot.UI.material;
+  var TextField = _robot$UI$material.TextField;
+  var SelectField = _robot$UI$material.SelectField;
+  var MenuItem = _robot$UI$material.MenuItem;
 
 
   var Currency = _react2.default.createClass({
@@ -76,10 +77,11 @@ exports.default = function (robot) {
         floatingLabelFixed: true,
         onChange: callback, value: current,
         children: Object.keys(rates).sort().map(function (rate) {
-          return {
-            name: rate,
+          return _react2.default.createElement(MenuItem, {
+            primaryText: rate,
+            key: rate,
             value: rate
-          };
+          });
         })
       });
     },
@@ -104,9 +106,11 @@ exports.default = function (robot) {
       var date = _state.date;
 
 
+      var props = robot.deleteProps(other, ['date', 'amount']);
+
       return _react2.default.createElement(
         Blank,
-        _extends({}, other, { title: 'Currency' }),
+        _extends({}, props, { title: 'Currency' }),
         _react2.default.createElement(
           'h1',
           { style: {

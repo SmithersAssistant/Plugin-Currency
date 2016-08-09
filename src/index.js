@@ -5,7 +5,7 @@ const CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 export default robot => {
 
   const {Blank} = robot.cards;
-  const {TextField, SelectField} = robot.UI;
+  const {TextField, SelectField, MenuItem} = robot.UI.material;
 
   const Currency = React.createClass({
     getDefaultProps() {
@@ -51,10 +51,13 @@ export default robot => {
           floatingLabelText={title}
           floatingLabelFixed={true}
           onChange={callback} value={current}
-          children={Object.keys(rates).sort().map(rate => ({
-            name: rate,
-            value: rate
-          }))}
+          children={Object.keys(rates).sort().map(rate => (
+            <MenuItem
+              primaryText={rate}
+              key={rate}
+              value={rate}
+            />
+          ))}
         />
       )
     },
@@ -72,8 +75,12 @@ export default robot => {
       const { ...other } = this.props;
       const { amount, from, to, date } = this.state;
 
+      const props = robot.deleteProps(other, [
+        'date', 'amount'
+      ]);
+
       return (
-        <Blank {...other} title="Currency">
+        <Blank {...props} title="Currency">
           <h1 style={{
             textAlign: 'center',
             padding: 50
