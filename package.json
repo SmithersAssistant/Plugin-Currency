@@ -1,8 +1,13 @@
 {
   "name": "smithers-currency",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A currency for the Smithers Assistant",
   "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SmithersAssistant/Plugin-Currency.git"
+  },
+  "homepage": "https://github.com/SmithersAssistant/Plugin-Currency",
   "keywords": [
     "smithers",
     "assistant",
