@@ -1,9 +1,7 @@
-import React from 'react'
-
 const CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 
 export default robot => {
-
+  const {React} = robot.dependencies
   const {Blank} = robot.cards;
   const {TextField, SelectField, MenuItem} = robot.UI.material;
 

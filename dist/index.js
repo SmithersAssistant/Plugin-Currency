@@ -6,17 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 var CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 
 exports.default = function (robot) {
+  var React = robot.dependencies.React;
   var Blank = robot.cards.Blank;
   var _robot$UI$material = robot.UI.material;
   var TextField = _robot$UI$material.TextField;
@@ -24,7 +19,7 @@ exports.default = function (robot) {
   var MenuItem = _robot$UI$material.MenuItem;
 
 
-  var Currency = _react2.default.createClass({
+  var Currency = React.createClass({
     displayName: 'Currency',
     getDefaultProps: function getDefaultProps() {
       return {
@@ -71,13 +66,13 @@ exports.default = function (robot) {
       var rates = this.state.rates;
 
 
-      return _react2.default.createElement(SelectField, {
+      return React.createElement(SelectField, {
         style: { width: 100 },
         floatingLabelText: title,
         floatingLabelFixed: true,
         onChange: callback, value: current,
         children: Object.keys(rates).sort().map(function (rate) {
-          return _react2.default.createElement(MenuItem, {
+          return React.createElement(MenuItem, {
             primaryText: rate,
             key: rate,
             value: rate
@@ -108,10 +103,10 @@ exports.default = function (robot) {
 
       var props = robot.deleteProps(other, ['date', 'amount']);
 
-      return _react2.default.createElement(
+      return React.createElement(
         Blank,
         _extends({}, props, { title: 'Currency' }),
-        _react2.default.createElement(
+        React.createElement(
           'h1',
           { style: {
               textAlign: 'center',
@@ -125,8 +120,8 @@ exports.default = function (robot) {
           ' ',
           to
         ),
-        _react2.default.createElement('hr', null),
-        _react2.default.createElement(
+        React.createElement('hr', null),
+        React.createElement(
           'small',
           { className: 'right', style: {
               display: 'flex',
@@ -137,7 +132,7 @@ exports.default = function (robot) {
           date,
           ')'
         ),
-        _react2.default.createElement(
+        React.createElement(
           'div',
           { className: 'left', style: {
               display: 'flex',
@@ -145,7 +140,7 @@ exports.default = function (robot) {
               width: 330,
               height: 72
             } },
-          _react2.default.createElement(TextField, {
+          React.createElement(TextField, {
             style: { width: 100 },
             floatingLabelText: 'Amount',
             floatingLabelFixed: true,
