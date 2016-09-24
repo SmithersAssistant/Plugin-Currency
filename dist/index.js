@@ -6,6 +6,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+var _styles = require('./styles');
+
+var _styles2 = _interopRequireDefault(_styles);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 
 var CURRENCY_COMPONENT = 'com.robinmalfait.currency';
@@ -13,10 +19,15 @@ var CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 exports.default = function (robot) {
   var React = robot.dependencies.React;
   var Blank = robot.cards.Blank;
-  var _robot$UI$material = robot.UI.material;
-  var TextField = _robot$UI$material.TextField;
-  var SelectField = _robot$UI$material.SelectField;
-  var MenuItem = _robot$UI$material.MenuItem;
+  var _robot$UI = robot.UI;
+  var classNames = _robot$UI.classNames;
+  var material = _robot$UI.material;
+  var TextField = material.TextField;
+  var SelectField = material.SelectField;
+  var MenuItem = material.MenuItem;
+  var enhance = robot.enhance;
+  var withStyles = robot.withStyles;
+  var restorableComponent = robot.restorableComponent;
 
 
   var Currency = React.createClass({
@@ -92,7 +103,10 @@ exports.default = function (robot) {
       return (amount * toRate / fromRate * 1.0).toFixed(4);
     },
     render: function render() {
-      var other = _objectWithoutProperties(this.props, []);
+      var _props2 = this.props;
+      var styles = _props2.styles;
+
+      var other = _objectWithoutProperties(_props2, ['styles']);
 
       var _state = this.state;
       var amount = _state.amount;
@@ -108,10 +122,7 @@ exports.default = function (robot) {
         _extends({}, props, { title: 'Currency' }),
         React.createElement(
           'h1',
-          { style: {
-              textAlign: 'center',
-              padding: 50
-            } },
+          { className: styles.display },
           this.amount(),
           ' ',
           from,
@@ -123,23 +134,16 @@ exports.default = function (robot) {
         React.createElement('hr', null),
         React.createElement(
           'small',
-          { className: 'right', style: {
-              display: 'flex',
-              alignItems: 'center',
-              height: 72
-            } },
+          {
+            className: classNames('right', styles.lastChecked)
+          },
           '(Last checked: ',
           date,
           ')'
         ),
         React.createElement(
           'div',
-          { className: 'left', style: {
-              display: 'flex',
-              justifyContent: 'space-around',
-              width: 330,
-              height: 72
-            } },
+          { className: classNames('left', styles.actions) },
           React.createElement(TextField, {
             style: { width: 100 },
             floatingLabelText: 'Amount',
@@ -154,7 +158,7 @@ exports.default = function (robot) {
     }
   });
 
-  robot.registerComponent(Currency, CURRENCY_COMPONENT);
+  robot.registerComponent(enhance(Currency, [restorableComponent, withStyles(_styles2.default)]), CURRENCY_COMPONENT);
 
   robot.listen(/^currency$/, {
     description: "Currency converter widget",

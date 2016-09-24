@@ -1,9 +1,13 @@
+import styles from './styles';
+
 const CURRENCY_COMPONENT = 'com.robinmalfait.currency';
 
 export default robot => {
-  const {React} = robot.dependencies
-  const {Blank} = robot.cards;
-  const {TextField, SelectField, MenuItem} = robot.UI.material;
+  const { React } = robot.dependencies
+  const { Blank } = robot.cards
+  const { classNames, material } = robot.UI
+  const { TextField, SelectField, MenuItem } = material
+  const { enhance, withStyles, restorableComponent } = robot
 
   const Currency = React.createClass({
     getDefaultProps() {
@@ -26,13 +30,13 @@ export default robot => {
     },
     componentDidMount() {
       robot.fetchJson("https://api.fixer.io/latest")
-        .then(data => this.setState({ date: data.date, rates: {...data.rates, ...{EUR: 1}} }))
+        .then(data => this.setState({ date: data.date, rates: { ...data.rates, ...{ EUR: 1 } } }))
     },
     setAmount(e) {
       this.setState({ amount: e.target.value.replace(',', '.') })
     },
     amount() {
-      return (+ this.state.amount) || 0
+      return (+this.state.amount) || 0
     },
     changeFrom(e, index, value) {
       this.setState({ from: value })
@@ -64,13 +68,13 @@ export default robot => {
 
       if (rates.length == 0) return 0;
 
-      const fromRate = rates[from] || 1;
-      const toRate = rates[to] || 1;
+      const fromRate = rates[ from ] || 1;
+      const toRate = rates[ to ] || 1;
 
       return ((amount * toRate / fromRate) * 1.0).toFixed(4);
     },
     render() {
-      const { ...other } = this.props;
+      const { styles, ...other } = this.props;
       const { amount, from, to, date } = this.state;
 
       const props = robot.deleteProps(other, [
@@ -79,25 +83,17 @@ export default robot => {
 
       return (
         <Blank {...props} title="Currency">
-          <h1 style={{
-            textAlign: 'center',
-            padding: 50
-          }}>{this.amount()} {from} = {this.computeCurrency(from, to, this.amount())} {to}</h1>
+          <h1 className={styles.display}>{this.amount()} {from} = {this.computeCurrency(from, to, this.amount())} {to}</h1>
 
           <hr/>
 
-          <small className="right" style={{
-            display: 'flex',
-            alignItems: 'center',
-            height: 72
-          }}>(Last checked: {date})</small>
+          <small
+            className={classNames('right', styles.lastChecked)}
+          >
+            (Last checked: {date})
+          </small>
 
-          <div className="left" style={{
-            display: 'flex',
-            justifyContent: 'space-around',
-            width: 330,
-            height: 72
-          }}>
+          <div className={classNames('left', styles.actions)}>
             <TextField
               style={{ width: 100 }}
               floatingLabelText="Amount"
@@ -113,7 +109,10 @@ export default robot => {
     }
   })
 
-  robot.registerComponent(Currency, CURRENCY_COMPONENT);
+  robot.registerComponent(enhance(Currency, [
+    restorableComponent,
+    withStyles(styles)
+  ]), CURRENCY_COMPONENT);
 
   robot.listen(/^currency$/, {
     description: "Currency converter widget",

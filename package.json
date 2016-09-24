@@ -1,6 +1,6 @@
 {
   "name": "smithers-currency",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A currency for the Smithers Assistant",
   "main": "dist/index.js",
   "repository": {
